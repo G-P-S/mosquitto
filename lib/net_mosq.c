@@ -113,7 +113,7 @@ void _mosquitto_net_cleanup(void)
 	ENGINE_cleanup();
 	CONF_modules_unload(1);
 	ERR_free_strings();
-	EVP_cleanup();
+//	EVP_cleanup();
 	CRYPTO_cleanup_all_ex_data();
 #endif
 
