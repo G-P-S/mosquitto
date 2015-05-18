@@ -9,7 +9,7 @@ DISTDIRS=man
 all : $(MAKE_ALL)
 
 docs :
-	set -e; for d in ${DOCDIRS}; do $(MAKE) -C $${d}; done
+	echo "set -e; for d in ${DOCDIRS}; do $(MAKE) -C $${d}; done"
 
 binary : mosquitto
 
