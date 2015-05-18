@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\lib\logging_mosq.c" />
+    <ClCompile Include="..\lib\memory_mosq.c" />
+    <ClCompile Include="..\lib\messages_mosq.c" />
+    <ClCompile Include="..\lib\mosquitto.c" />
+    <ClCompile Include="..\lib\net_mosq.c" />
+    <ClCompile Include="..\lib\read_handle.c" />
+    <ClCompile Include="..\lib\read_handle_client.c" />
+    <ClCompile Include="..\lib\read_handle_shared.c" />
+    <ClCompile Include="..\lib\send_client_mosq.c" />
+    <ClCompile Include="..\lib\send_mosq.c" />
+    <ClCompile Include="..\lib\socks_mosq.c" />
+    <ClCompile Include="..\lib\srv_mosq.c" />
+    <ClCompile Include="..\lib\thread_mosq.c" />
+    <ClCompile Include="..\lib\time_mosq.c" />
+    <ClCompile Include="..\lib\tls_mosq.c" />
+    <ClCompile Include="..\lib\util_mosq.c" />
+    <ClCompile Include="..\lib\will_mosq.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\logging_mosq.h" />
+    <ClInclude Include="..\lib\memory_mosq.h" />
+    <ClInclude Include="..\lib\messages_mosq.h" />
+    <ClInclude Include="..\lib\mosquitto.h" />
+    <ClInclude Include="..\lib\mosquitto_internal.h" />
+    <ClInclude Include="..\lib\mqtt3_protocol.h" />
+    <ClInclude Include="..\lib\net_mosq.h" />
+    <ClInclude Include="..\lib\read_handle.h" />
+    <ClInclude Include="..\lib\send_mosq.h" />
+    <ClInclude Include="..\lib\util_mosq.h" />
+    <ClInclude Include="..\lib\will_mosq.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ED7964A0-03D5-49BB-BBA4-F9B984A7F717}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{DDC78DE9-99AA-462F-93CB-8DD60C0CF2AE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
