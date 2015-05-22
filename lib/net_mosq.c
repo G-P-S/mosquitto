@@ -1157,11 +1157,21 @@ int _mosquitto_socketpair(mosq_sock_t *pairR, mosq_sock_t *pairW)
 			}
 		}
 		spW = accept(listensock, NULL, 0);
-		if(spW == -1){
+		if (spW == -1 || spW == INVALID_SOCKET){
+			int err = errno;
 #ifdef WIN32
-			errno = WSAGetLastError();
+			err = WSAGetLastError();
+			if (err == WSAEWOULDBLOCK)
+			{
+				Sleep(300);
+				spW = accept(listensock, NULL, 0);
+				if (spW == INVALID_SOCKET)
+				{
+					err = WSAGetLastError();
+				}
+			}
 #endif
-			if(errno != EINPROGRESS && errno != COMPAT_EWOULDBLOCK){
+			if (err != EINPROGRESS && err != COMPAT_EWOULDBLOCK){
 				COMPAT_CLOSE(spR);
 				COMPAT_CLOSE(listensock);
 				continue;
