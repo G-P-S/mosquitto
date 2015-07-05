@@ -86,7 +86,7 @@ option(WITH_SRV "Include SRV lookup support?" ON)
 add_subdirectory(lib)
 add_subdirectory(client)
 add_subdirectory(src)
-add_subdirectory(man)
+#add_subdirectory(man)
 
 # ========================================
 # Install config file
