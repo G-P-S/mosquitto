@@ -62,7 +62,7 @@ WITH_SRV:=yes
 
 # Build using libuuid for clientid generation (Linux only - please report if
 # supported on your platform).
-WITH_UUID:=yes
+WITH_UUID:=no
 
 # Build with websockets support on the broker.
 WITH_WEBSOCKETS:=no
