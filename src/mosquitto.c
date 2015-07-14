@@ -181,7 +181,11 @@ void handle_sigusr2(int signal)
 	flag_tree_print = true;
 }
 
+#ifdef MAC_XPC
+int mosquittoMain(int argc, char *argv[])
+#else
 int main(int argc, char *argv[])
+#endif
 {
 	mosq_sock_t *listensock = NULL;
 	int listensock_count = 0;
@@ -272,7 +276,7 @@ int main(int argc, char *argv[])
 	/* Initialise logging only after initialising the database in case we're
 	 * logging to topics */
 	mqtt3_log_init(&config);
-	_mosquitto_log_printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s (build date %s) starting", VERSION, TIMESTAMP);
+	_mosquitto_log_printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s (build date %s) starting", MQTTVERSION, TIMESTAMP);
 	if(config.config_file){
 		_mosquitto_log_printf(NULL, MOSQ_LOG_INFO, "Config loaded from %s.", config.config_file);
 	}else{
@@ -365,7 +369,7 @@ int main(int argc, char *argv[])
 	run = 1;
 	rc = mosquitto_main_loop(&int_db, listensock, listensock_count, listener_max);
 
-	_mosquitto_log_printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s terminating", VERSION);
+	_mosquitto_log_printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s terminating", MQTTVERSION);
 	mqtt3_log_close(&config);
 
 #ifdef WITH_PERSISTENCE
