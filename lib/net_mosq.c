@@ -1163,6 +1163,7 @@ int _mosquitto_socketpair(mosq_sock_t *pairR, mosq_sock_t *pairW)
 			}
 		}
 		spW = accept(listensock, NULL, 0);
+//BEGIN GOPRO CHANGES
 		if (spW == -1 || spW == INVALID_SOCKET){
 			int err = errno;
 #ifdef WIN32
@@ -1178,6 +1179,7 @@ int _mosquitto_socketpair(mosq_sock_t *pairR, mosq_sock_t *pairW)
 			}
 #endif
 			if (err != EINPROGRESS && err != COMPAT_EWOULDBLOCK){
+//END GOPRO CHANGES
 				COMPAT_CLOSE(spR);
 				COMPAT_CLOSE(listensock);
 				continue;
