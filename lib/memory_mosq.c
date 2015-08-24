@@ -107,7 +107,13 @@ void *_mosquitto_realloc(void *ptr, size_t size)
 
 char *_mosquitto_strdup(const char *s)
 {
-	char *str = strdup(s);
+//BEGIN GOPRO CHANGES
+#ifdef WIN32
+	char *str = _strdup(s);
+#else
+    char *str = strdup(s);
+#endif
+//END GOPRO CHANGES
 
 #ifdef REAL_WITH_MEMORY_TRACKING
 	memcount += malloc_usable_size(str);
