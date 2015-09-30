@@ -115,7 +115,11 @@ void _mosquitto_net_cleanup(void)
 	ENGINE_cleanup();
 	CONF_modules_unload(1);
 	ERR_free_strings();
-	EVP_cleanup();
+	// This removes entries from the global OpenSSL algorithm table
+	// which at best prevents the use of OpenSSL in other parts of
+	// an application, and at worst crashes the app when it tries to
+	// use OpenSSL after this call. So we should not call it here.
+	// EVP_cleanup();
 	CRYPTO_cleanup_all_ex_data();
 #endif
 
