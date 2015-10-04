@@ -56,7 +56,9 @@ struct config_recurse {
 
 #if defined(WIN32) || defined(__CYGWIN__)
 #include <windows.h>
+#ifndef WITH_BROKER_LIB
 extern SERVICE_STATUS_HANDLE service_handle;
+#endif
 #endif
 
 static int _conf_parse_bool(char **token, const char *name, bool *value, char *saveptr);
@@ -125,6 +127,7 @@ static void _config_init_reload(struct mqtt3_config *config)
 		config->log_file = NULL;
 	}
 #if defined(WIN32) || defined(__CYGWIN__)
+#if !defined(WITH_BROKER_LIB)
 	if(service_handle){
 		/* This is running as a Windows service. Default to no logging. Using
 		 * stdout/stderr is forbidden because the first clients to connect will
@@ -133,6 +136,7 @@ static void _config_init_reload(struct mqtt3_config *config)
 	}else{
 		config->log_dest = MQTT3_LOG_STDERR;
 	}
+#endif
 #else
 	config->log_facility = LOG_DAEMON;
 	config->log_dest = MQTT3_LOG_STDERR;
@@ -1317,7 +1321,7 @@ int _config_read_file_core(struct mqtt3_config *config, bool reload, const char 
 							_mosquitto_log_printf(NULL, MOSQ_LOG_ERR, "Error: Invalid log_dest value (%s).", token);
 							return MOSQ_ERR_INVAL;
 						}
-#if defined(WIN32) || defined(__CYGWIN__)
+#if (defined(WIN32) || defined(__CYGWIN__)) && !defined(WITH_BROKER_LIB)
 						if(service_handle){
 							if(cr->log_dest == MQTT3_LOG_STDOUT || cr->log_dest == MQTT3_LOG_STDERR){
 								_mosquitto_log_printf(NULL, MOSQ_LOG_ERR, "Error: Cannot log to stdout/stderr when running as a Windows service.");

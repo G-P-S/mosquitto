@@ -52,6 +52,7 @@ extern bool flag_db_backup;
 #endif
 extern bool flag_tree_print;
 extern int run;
+int broker_quit = 0;
 #ifdef WITH_SYS_TREE
 extern int g_clients_expired;
 #endif
@@ -127,7 +128,7 @@ int mosquitto_main_loop(struct mosquitto_db *db, mosq_sock_t *listensock, int li
 		expiration_check_time = time(NULL) + 3600;
 	}
 
-	while(run){
+	while(run && !broker_quit){
 		mosquitto__free_disused_contexts(db);
 #ifdef WITH_SYS_TREE
 		if(db->config->sys_interval > 0){

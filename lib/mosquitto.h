@@ -21,6 +21,9 @@ Contributors:
 extern "C" {
 #endif
 
+#if 1
+#define libmosq_EXPORT
+#else
 #if defined(WIN32) && !defined(WITH_BROKER)
 #	ifdef libmosquitto_EXPORTS
 #		define libmosq_EXPORT  __declspec(dllexport)
@@ -29,6 +32,7 @@ extern "C" {
 #	endif
 #else
 #	define libmosq_EXPORT
+#endif
 #endif
 
 #ifdef WIN32
