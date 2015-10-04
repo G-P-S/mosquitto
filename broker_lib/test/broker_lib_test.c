@@ -1,5 +1,10 @@
 #include <stdio.h>
+#ifdef _WIN32
+#include "windows.h"
+#define sleep(x) Sleep((x * 1000))
+#else
 #include <unistd.h>
+#endif
 
 #include "mosquitto_broker_lib.h"
 

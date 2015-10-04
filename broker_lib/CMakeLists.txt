@@ -2,7 +2,7 @@ option(WITH_THREADING "Include client library threading support?" ON)
 if (${WITH_THREADING} STREQUAL ON)
 	add_definitions("-DWITH_THREADING")
 	if (WIN32)
-		set (PTHREAD_LIBRARIES C:\\pthreads\\Pre-built.2\\lib\\x86\\pthreadVC2.lib)
+		set (PTHREAD_LIBRARIES C:\\pthreads\\Pre-built.2\\lib\\x64\\pthreadVC2.lib)
 		set (PTHREAD_INCLUDE_DIR C:\\pthreads\\Pre-built.2\\include)
 	else (WIN32)
 		set (PTHREAD_LIBRARIES pthread)
@@ -81,7 +81,7 @@ if (${WITH_SRV} STREQUAL ON)
 	endif (ARES_HEADER)
 endif (${WITH_SRV} STREQUAL ON)
 
-add_definitions(-DWITH_BROKER)
+add_definitions(-DWITH_BROKER -DWITH_BROKER_LIB)
 
 target_link_libraries(libmosquitto_broker ${LIBRARIES})
 
