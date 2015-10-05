@@ -1,6 +1,5 @@
-#include <unistd.H>
-#include <stdio.H>
-#include <stdlib.H>
+#include <stdio.h>
+#include <stdlib.h>
 #include "pthread.h"
 #include "mosquitto_broker_lib.h"
 
