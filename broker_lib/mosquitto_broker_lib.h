@@ -14,12 +14,21 @@
 #define BROKER_LIB_ERROR_PRIVILEGE_DROP       10
 #define BROKER_LIB_ERROR_MALLOC               11
 #define BROKER_LIB_ERROR_NO_OPEN_PORT         12
+#define BROKER_LIB_ERROR_THREADING            13
 
+/* must be called before using the broker library */
 int broker_init(void);
-int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int port));
 
-int broker_start(int argc, char *argv[], int port, void (*connect_callback)(int port), void (*return_callback)(int return_code));
+/* call after library use is complete */
+int broker_deinit(void);
+
+/* call to start the broker (in its own thread) */
+int broker_start(int argc, char *argv[], int *port);
+
+/* stop the broker */
 int broker_stop(void);
+
+/* check whether broker is already running */
 int broker_is_running(void);
 
 #endif /* MOSQUITTO_BROKER_LIB_H */

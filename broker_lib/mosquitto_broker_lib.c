@@ -38,7 +38,6 @@
 
 #include "mosquitto_broker_lib.h"
 
-extern int broker_quit;
 extern int run;
 
 struct mosquitto_db int_db;
@@ -192,8 +191,6 @@ int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int p
 	struct timeval tv;
 #endif
 	struct mosquitto *ctxt, *ctxt_tmp;
-
-    broker_quit = 0;
 
 #if 0
 //#if defined(WIN32) || defined(__CYGWIN__)
@@ -444,55 +441,5 @@ int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int p
 	_mosquitto_net_cleanup();
 
 	return BROKER_LIB_ERROR_NONE;
-}
-
-int broker_init(void)
-{
-    broker_quit = 1;
-    return 0;
-}
-
-int broker_start(int argc, char *argv[], int default_port, void (*connect_callback)(int port), void (*return_callback)(int return_code))
-{
-    int ret = -1;
-    int port_search = 1;
-    int port = default_port;
-
-    while (port_search == 1)
-    {
-        printf("broker_main(port=%d)\n", port);
-        ret = broker_main(argc, argv, port, connect_callback);
-        if (ret == BROKER_LIB_ERROR_SOCKET_OPEN ||
-            ret == BROKER_LIB_ERROR_SOCKET_LISTEN ||
-            ret == BROKER_LIB_ERROR_SOCKET_INVALID)
-        {
-            port++;
-            if (port > default_port + 100)
-            {
-                port_search = 0;
-                ret = BROKER_LIB_ERROR_NO_OPEN_PORT;
-            }
-        }
-        else
-        {
-            port_search = 0;
-        }
-    }
-
-    if (return_callback != NULL)
-        (*return_callback)(ret);
-    broker_quit = 1;
-    return ret;
-}
-
-int broker_stop(void)
-{
-    broker_quit = 1;
-    return 0;
-}
-
-int broker_is_running(void)
-{
-    return (broker_quit == 0);
 }
 

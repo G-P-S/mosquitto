@@ -32,6 +32,7 @@ add_library(libmosquitto_broker STATIC
 	../lib/memory_mosq.c
     ../lib/memory_mosq.h
 	mosquitto_broker_lib.c
+	mosquitto_broker_start.c
 	../src/mosquitto_broker.h
 	../src/net.c
 	../lib/net_mosq.c
