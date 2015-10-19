@@ -94,6 +94,34 @@ int broker_start(int argc, char *argv[], int *default_port)
     return broker_lib_status;
 }
 
+int broker_run(int argc, char *argv[], int default_port, void (*connect_callback)(int port))
+{
+    int ret = BROKER_LIB_ERROR_NONE;
+    int port_search = 1;
+    int port_search_count = 0;
+
+    broker_quit = 0;
+
+    while (port_search == 1 && port_search_count++ <= 100)
+    {
+        ret = broker_main(argc, argv, default_port, connect_callback);
+        if (ret == BROKER_LIB_ERROR_SOCKET_OPEN ||
+            ret == BROKER_LIB_ERROR_SOCKET_LISTEN ||
+            ret == BROKER_LIB_ERROR_SOCKET_INVALID)
+        {
+            default_port++;
+        }
+        else
+        {
+            port_search = 0;
+        }
+    }
+    if (port_search_count >= 100)
+        ret = BROKER_LIB_ERROR_NO_OPEN_PORT;
+
+    return ret;
+}
+
 int broker_stop(void)
 {
     broker_quit = 1;
