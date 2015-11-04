@@ -26,7 +26,7 @@ int broker_deinit(void);
 int broker_start(int argc, char *argv[], int *port);
 
 /* call to start the broker (in this thread) */
-int broker_run(int argc, char *argv[], int port, void (*connect_callback)(int port));
+int broker_run(int argc, char *argv[], int port, void (*connect_callback)(int port, void *user_data), void *user_data);
 
 /* stop the broker */
 int broker_stop(void);

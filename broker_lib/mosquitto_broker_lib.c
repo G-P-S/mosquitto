@@ -171,7 +171,7 @@ void handle_sigusr2(int signal)
 	flag_tree_print = true;
 }
 
-int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int port))
+int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int port, void *user_data), void *user_data)
 {
 	mosq_sock_t *listensock = NULL;
 	int listensock_count = 0;
@@ -310,7 +310,7 @@ int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int p
 			}
 
             if (connect_callback != NULL)
-                (*connect_callback)(config.listeners[i].port);
+                (*connect_callback)(config.listeners[i].port, user_data);
 
 			listensock_count += config.listeners[i].sock_count;
 			listensock = _mosquitto_realloc(listensock, sizeof(mosq_sock_t)*listensock_count);

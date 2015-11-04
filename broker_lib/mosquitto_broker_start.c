@@ -3,7 +3,7 @@
 #include "pthread.h"
 #include "mosquitto_broker_lib.h"
 
-extern int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int port));
+extern int broker_main(int argc, char *argv[], int port, void (*connect_callback)(int port, void *user_data), void *user_data);
 extern int broker_quit;
 
 static pthread_mutex_t broker_lib_mutex;
@@ -26,7 +26,7 @@ int broker_deinit(void)
     return 0;
 }
 
-void connect_callback(int port)
+void connect_callback(int port, void *user_data)
 {
     broker_lib_status = BROKER_LIB_ERROR_NONE;
     pthread_cond_signal(&broker_lib_cond);
@@ -38,6 +38,7 @@ typedef struct
     int    argc;
     char **argv;
     int   *port;
+    void  *user_data;
 } args_t;
 
 void *thread_main(void *obj)
@@ -59,7 +60,7 @@ void *thread_main(void *obj)
 
     while (port_search == 1 && port_search_count++ <= 100)
     {
-        ret = broker_main(args->argc, args->argv, *args->port, connect_callback);
+        ret = broker_main(args->argc, args->argv, *args->port, connect_callback, NULL);
         if (ret == BROKER_LIB_ERROR_SOCKET_OPEN ||
             ret == BROKER_LIB_ERROR_SOCKET_LISTEN ||
             ret == BROKER_LIB_ERROR_SOCKET_INVALID)
@@ -94,7 +95,7 @@ int broker_start(int argc, char *argv[], int *default_port)
     return broker_lib_status;
 }
 
-int broker_run(int argc, char *argv[], int default_port, void (*connect_callback)(int port))
+int broker_run(int argc, char *argv[], int default_port, void (*connect_callback)(int port, void *user_data), void *user_data)
 {
     int ret = BROKER_LIB_ERROR_NONE;
     int port_search = 1;
@@ -104,7 +105,7 @@ int broker_run(int argc, char *argv[], int default_port, void (*connect_callback
 
     while (port_search == 1 && port_search_count++ <= 100)
     {
-        ret = broker_main(argc, argv, default_port, connect_callback);
+        ret = broker_main(argc, argv, default_port, connect_callback, user_data);
         if (ret == BROKER_LIB_ERROR_SOCKET_OPEN ||
             ret == BROKER_LIB_ERROR_SOCKET_LISTEN ||
             ret == BROKER_LIB_ERROR_SOCKET_INVALID)
