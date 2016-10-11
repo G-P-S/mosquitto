@@ -372,7 +372,7 @@ int mqtt3_config_parse_args(struct mqtt3_config *config, int argc, char *argv[])
 		}else if(!strcmp(argv[i], "-v") || !strcmp(argv[i], "--verbose")){
 			config->verbose = true;
 		}else if(!strcmp(argv[i], "-l") || !strcmp(argv[i], "--localhost")){
-			config->default_listener.host = _mosquitto_strdup("localhost");
+			config->default_listener.host = _mosquitto_strdup("127.0.0.1");
 			if(_conf_attempt_resolve(config->default_listener.host, "bind_address command line option", MOSQ_LOG_ERR, "Error")){
 			    return MOSQ_ERR_INVAL;
             }
